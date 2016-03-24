@@ -9,9 +9,10 @@ function LookupRecipe(ItemName)
   -- Create Blank Array
   for i=0,8 do
     craftingArray[i] = nil
+  end
 
   -- Open the file
-  if type(ItemName) != string then
+  if type(ItemName) ~= string then
     return "Error: Bad Recipe Name"
   end
 
@@ -19,18 +20,19 @@ function LookupRecipe(ItemName)
   -- Read till the end of the file
   repeat
      ingredient = recipeFile.readLine()
+     
      if ingredient ~= nil then
        -- Read each ingredient name
        ingredientName = ingredient.sub( 0, ingredient.match(INGREDIENT_NAME_DELIMITER))
        -- Read each location for that item and write the item name into the array location
        for gridLocation in ingredient.gmatch("^[0-8],$") do
         -- If not nil recipe is bad and has two items existing in the same grid location
-	 if craftingArray[gridLocation] == nil then
+         if craftingArray[gridLocation] == nil then
            craftingArray[gridLocation] = ingredientName
-	 else
+         else
            craftingArray = "Error: Bad Recipe Positions"
            ingredient = nil
-	 end
+         end
        end
      end
   until ingredient ~= nil
