@@ -25,11 +25,9 @@ function LookupRecipe(ItemName)
      
      if ingredient ~= nil then
        -- Read each ingredient name
-       print( ingredient.match("^" .. INGREDIENT_NAME_DELIMITER .. "$"))
-       print( ingredient.sub(0, ( ingredient.match("^" .. INGREDIENT_NAME_DELIMITER .. "$"))))
-       ingredientName = ingredient.sub( 0, ingredient.match("^" .. INGREDIENT_NAME_DELIMITER .. "$"))
+       ingredientName = string.sub(ingredient, 0, string.match(ingredient,"^" .. INGREDIENT_NAME_DELIMITER .. "$"))
        -- Read each location for that item and write the item name into the array location
-       for gridLocation in ingredient.gmatch("^[0-8],$") do
+       for gridLocation in string.gmatch(ingredient,"^[0-9],$") do
         -- If not nil recipe is bad and has two items existing in the same grid location
          if craftingArray[gridLocation] == nil then
            craftingArray[gridLocation] = ingredientName
@@ -39,7 +37,7 @@ function LookupRecipe(ItemName)
          end
        end
      end
-  until ingredient ~= nil
+  until ingredient == nil
 
   -- Close File
   recipeFile.close()
